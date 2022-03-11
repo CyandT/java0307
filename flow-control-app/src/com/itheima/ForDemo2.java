@@ -1,4 +1,4 @@
-package com.itheima.branch;
+package com.itheima;
 
 public class ForDemo2 {
     public static void main(String[] args) {
