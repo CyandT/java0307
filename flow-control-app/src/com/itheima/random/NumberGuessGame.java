@@ -18,7 +18,7 @@ public class NumberGuessGame {
             else if(number<data){
                 System.out.println("猜测错误，数字过小");
             }
-            else if(number==data){
+            else {
                 System.out.println("恭喜你~~猜中了!");
                 break;
             }
