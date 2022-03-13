@@ -2,7 +2,7 @@ package com.itheima;
 
 import java.util.Random;
 import java.util.Scanner;
-
+                                                 // 随机排名
 public class ArrayDemoPerson {
     public static void main(String[] args) {
         int [] cards = new int[5];
