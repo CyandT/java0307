@@ -12,3 +12,4 @@ public class MethodDemo3 {
             System.out.println("该数为奇数");
     }
 }
+
