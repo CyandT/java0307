@@ -25,6 +25,8 @@ public class JudgePoint {
              sum += scores[i];
         }
         sum = sum/(scores.length-2);
+        System.out.println("最低分是:"+scores[0]);
+        System.out.println("最高分是:"+scores[scores.length-1]);
         System.out.println("最后的平均分为:"+sum);
     }
 }
