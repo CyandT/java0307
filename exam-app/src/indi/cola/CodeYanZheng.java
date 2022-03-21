@@ -1,7 +1,7 @@
 package indi.cola;
 
 import java.util.Random;
-
+//  思路:先大循环共有几位，然后将三种条件（大写，小写，数字)分为0,1,2开始随机数选择。随机到哪一个就开始对应的条件再随机选择，然后累加到字符串中。重复n位。
 public class CodeYanZheng {
     public static void main(String[] args) {
         String code =codeYZ(5);
