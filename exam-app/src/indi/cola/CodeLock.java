@@ -30,7 +30,7 @@ public class CodeLock {
             code[i]+=5;
             code[i]%=10;
         }
-        if(n>=2) {
+        /*if(n>=2) {
             for (int i = 0; i < code.length; i++) {
                 for (int j = 0; j < code.length; j++) {
                     if(i<j){
@@ -39,6 +39,14 @@ public class CodeLock {
                         code[j] = temp;
                     }
                 }
+            }
+        }
+         */
+        if(n>=2) {
+            for (int i = 0, j = code.length - 1; i < j; i++, j--) {
+                int temp = code[i];
+                code[i] = code[j];
+                code[j] = temp;
             }
         }
         System.out.println("加密后的密码为:");
