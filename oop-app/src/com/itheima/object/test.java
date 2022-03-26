@@ -2,14 +2,10 @@ package com.itheima.object;
 
 public class test {
     public static void main(String[] args) {
-          Car c = new Car();
-          c.name = "宝马";
-          c.price = 5000000;
+          Student student = new Student();
 
-        System.out.println(c.name);
-        System.out.println(c.price);
-
-        c.start();
-        c.run();
+          student.name = "张三";
+          student.height = 176.2;
+          student.bodyTest();
     }
 }
