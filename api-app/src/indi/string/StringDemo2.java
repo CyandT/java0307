@@ -1,4 +1,4 @@
-package indi;
+package indi.string;
 
 public class StringDemo2 {
     public static void main(String[] args) {

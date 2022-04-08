@@ -1,4 +1,4 @@
-package indi;
+package indi.string;
 
 import java.util.Scanner;
 
