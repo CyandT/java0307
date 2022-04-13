@@ -51,29 +51,94 @@ public class ATMSystem {
             if (acc == null) {
                 System.out.println("不存在该卡号");
             } else {
-                System.out.println("卡号正确!请您输入您的密码:");
-                String passWord = sc.next();
-                Account acc1 = comparePassword(accounts, passWord);
-                if(acc1 == null){
-                    System.out.println("密码错误!请重新输入:");
+                while (true) {
+                    System.out.println("请您输入您的密码:");
+                    String passWord = sc.next();
+                    if(acc.getPassWord().equals(passWord)){
+                        System.out.println("恭喜您!"+acc.getName()+"女士/先生,您的密码正确!登陆成功!");
+                        System.out.println("您的卡号是:" + acc.getIdCard());
+                        userDoThing(sc,acc);
+                        return;
+                    }
+                    else {
+                        System.out.println("密码错误!请您重新输入密码!");
+                    }
                 }
-                else{
-                    System.out.println("登陆成功!");
-                    break;}
             }
         }
     }
 
-    private static Account comparePassword(ArrayList<Account> accounts, String passWord) {
-        for (int i = 0; i < accounts.size(); i++) {
-            Account acc = accounts.get(i);
-            if (acc.getPassWord().equals(passWord)) {
-                return acc;
+    /**
+     * 进入用户操作界面
+     * @param sc 扫描器
+     * @param acc 当前账户对象
+     */
+    private static void userDoThing(Scanner sc,Account acc) {
+        System.out.println("======================欢迎您进入**银行用户操作界面=====================");
+        while (true) {
+            System.out.println("1、查询");
+            System.out.println("2、存款");
+            System.out.println("3、取款");
+            System.out.println("4、转账");
+            System.out.println("5、修改密码");
+            System.out.println("6、退出");
+            System.out.println("7、注销当前账户");
+            int command = sc.nextInt();
+            switch (command){
+                case 1:
+                    searchUserMessage(acc);
+                    break;
+                case 2:
+                    depositMoney(acc,sc);
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+
+                    break;
+                case 6:
+                    exitSystem();
+                    return;
+                case 7:
+
+                    break;
+                default:
+                    System.out.println("没有该指令!请重新输入!");
             }
         }
-        return null;
     }
 
+    /**
+     * 用户存款功能
+     * @param acc 当前账户对象
+     * @param sc 扫描器
+     */
+    private static void depositMoney(Account acc, Scanner sc) {
+    }
+
+    /**
+     * 用户退出
+     */
+    private static void exitSystem() {
+        System.out.println("退出成功,期待您下次操作!");
+    }
+
+    /**
+     * 用户查询信息界面
+     * @param acc 当前账户对象
+     */
+    private static void searchUserMessage(Account acc) {
+        System.out.println("==================欢迎您进入**银行用户详情界面=================");
+        System.out.println("您的账户信息如下:");
+        System.out.println("卡号:" + acc.getIdCard());
+        System.out.println("姓名:" + acc.getName());
+        System.out.println("余额:" + acc.getBalance());
+        System.out.println("当次取现额度:" + acc.getXianE());
+    }
 
     /**
      * 得到用户的开户资料
