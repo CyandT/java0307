@@ -74,8 +74,8 @@ public class ATMSystem {
      * @param acc 当前账户对象
      */
     private static void userDoThing(Scanner sc,Account acc,ArrayList<Account> accounts) {
-        System.out.println("======================欢迎您进入**银行用户操作界面=====================");
         while (true) {
+            System.out.println("======================欢迎您进入**银行用户操作界面=====================");
             System.out.println("1、查询");
             System.out.println("2、存款");
             System.out.println("3、取款");
@@ -238,7 +238,7 @@ public class ATMSystem {
                 else {
                     System.out.println("您已取款成功!");
                     acc.setBalance(acc.getBalance()-intoMoney);
-                    System.out.println("当前账户余额为:");
+                    System.out.println("当前账户余额为:"+acc.getBalance());
                     break;
                 }
             }
