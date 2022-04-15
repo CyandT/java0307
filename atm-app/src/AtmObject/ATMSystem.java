@@ -57,7 +57,7 @@ public class ATMSystem {
                     if(acc.getPassWord().equals(passWord)){
                         System.out.println("恭喜您!"+acc.getName()+"女士/先生,您的密码正确!登陆成功!");
                         System.out.println("您的卡号是:" + acc.getIdCard());
-                        userDoThing(sc,acc);
+                        userDoThing(sc,acc,accounts);
                         return;
                     }
                     else {
@@ -73,7 +73,7 @@ public class ATMSystem {
      * @param sc 扫描器
      * @param acc 当前账户对象
      */
-    private static void userDoThing(Scanner sc,Account acc) {
+    private static void userDoThing(Scanner sc,Account acc,ArrayList<Account> accounts) {
         System.out.println("======================欢迎您进入**银行用户操作界面=====================");
         while (true) {
             System.out.println("1、查询");
@@ -92,22 +92,155 @@ public class ATMSystem {
                     depositMoney(acc,sc);
                     break;
                 case 3:
-
+                    takeMoney(acc,sc);
                     break;
                 case 4:
-
+                    sendMoney(acc,sc,accounts);
                     break;
                 case 5:
-
-                    break;
+                    changePassword(acc,sc);
+                    return;
                 case 6:
                     exitSystem();
                     return;
                 case 7:
-
-                    break;
+                    logout(acc,sc,accounts);
+                    return;
                 default:
                     System.out.println("没有该指令!请重新输入!");
+            }
+        }
+    }
+
+    /**
+     * 注销当前账户
+     * @param acc 当前账户对象
+     * @param sc 扫描器
+     * @param accounts 全部对象集合
+     */
+    private static void logout(Account acc,Scanner sc, ArrayList<Account> accounts) {
+        while (true) {
+            System.out.println("您确认要注销您的账户?");
+            String answer = sc.next();
+            switch (answer){
+                case "yes":
+                    accounts.remove(acc);
+                    System.out.println("销户成功!");
+                    return;
+                case "no":
+                    System.out.println("好的!当前用户继续保留!");
+                    break;
+                default:
+                    System.out.println("指令错误!请重新输入!");
+            }
+        }
+    }
+
+    /**
+     * 用户修改密码
+     * @param acc 当前账户对象
+     * @param sc 扫描器
+     */
+    private static void changePassword(Account acc, Scanner sc) {
+        System.out.println("================欢迎您进入**银行修改密码界面===============");
+        while (true) {
+            System.out.println("请您输入当前账户的密码:");
+            String userPassword = sc.next();
+            if(userPassword.equals(acc.getPassWord())){
+                System.out.println("请您输入新的密码:");
+                String newPassword = sc.next();
+                System.out.println("请您确认下新密码:");
+                String again = sc.next();
+                if(newPassword.equals(again)){
+                    acc.setPassWord(newPassword);
+                    System.out.println("密码修改成功!请您重新登录!");
+                    return;
+                }
+            }else {
+                System.out.println("当前账户密码不正确!");
+            }
+        }
+    }
+
+    /**
+     * 用户转账功能
+     * @param acc 当前自己的账户对象
+     * @param sc 扫描器
+     * @param accounts 账户集合
+     */
+    private static void sendMoney(Account acc, Scanner sc, ArrayList<Account> accounts) {
+        System.out.println("================欢迎您进入**银行用户转账界面===============");
+        if(accounts.size()<2){
+            System.out.println("当前账户系统中没有两个账户,请先去开户吧~~~");
+            return;
+        }
+        if(acc.getBalance() == 0){
+            System.out.println("您的账户中没有存款!请先去存款吧!");
+            return;
+        }
+        while (true) {
+            System.out.println("请您输入对方的卡号:");
+            String idCard = sc.next();
+
+            if(idCard.equals(acc.getName())){
+                System.out.println("对不起!您不能给自己转账!请重新输入!");
+                continue;
+            }
+
+            Account account = compareIdCard(accounts,idCard);
+            if(account == null){
+                System.out.println("卡号输入错误!没用该用户!");
+            }else {
+                System.out.println("卡号输入正确!");
+                String name = account.getName();
+                String tip = "*" + name.substring(1);
+                System.out.println("您要转账的用户是" + tip + "先生/女士\t请您确认他的姓氏");
+                if(name.startsWith(sc.next())){
+                    System.out.println("转账对象正确!请输入您要转账的金额:");
+                    double sendMoney = sc.nextDouble();
+                    if(sendMoney>acc.getBalance()){
+                        System.out.println("对不起!您的余额不足!");
+                    }
+                    else {
+                        acc.setBalance(acc.getBalance()-sendMoney);
+                        account.setBalance(account.getBalance()+sendMoney);
+                        System.out.println("转账成功!");
+                        System.out.println(acc.getName() + "先生/女士,您当前账户余额为:" + acc.getBalance());
+                        break;
+                    }
+                }
+                else {
+                    System.out.println("信息确认错误!");
+                }
+            }
+        }
+    }
+
+    /**
+     * 用户取款功能
+     * @param acc 当前账户对象
+     * @param sc 扫描器
+     */
+    private static void takeMoney(Account acc, Scanner sc) {
+        System.out.println("================欢迎您进入**银行用户取款界面===============");
+        if(acc.getBalance()<100){
+            System.out.println("账户余额不足100元,先去存钱吧!");
+        }else {
+            while (true) {
+                System.out.println("请您输入取款的金额:");
+                double intoMoney = sc.nextDouble();
+                if(intoMoney>acc.getXianE()){
+                    System.out.println("您当前取款超过了当次限额!");
+                }
+                else if(intoMoney>acc.getBalance()){
+                    System.out.println("您的账户余额不足");
+                }
+                else {
+                    System.out.println("您已取款成功!");
+                    acc.setBalance(acc.getBalance()-intoMoney);
+                    System.out.println("当前账户余额为:");
+                    break;
+                }
             }
         }
     }
@@ -118,6 +251,12 @@ public class ATMSystem {
      * @param sc 扫描器
      */
     private static void depositMoney(Account acc, Scanner sc) {
+        System.out.println("================欢迎您进入**银行用户存款界面===============");
+        System.out.println("请您输入存款的金额:");
+        double deposit = sc.nextDouble();
+        acc.setBalance(deposit+acc.getBalance());
+        System.out.println("您已经存款成功!");
+        searchUserMessage(acc);
     }
 
     /**
@@ -143,8 +282,7 @@ public class ATMSystem {
     /**
      * 得到用户的开户资料
      * @param accounts 接受的账户集合
-     * @param sc
-     * @return
+     * @param sc 扫描器
      */
     private static void getUserMessage(ArrayList<Account> accounts,Scanner sc) {
         System.out.println("==================系统开户操作===============");
